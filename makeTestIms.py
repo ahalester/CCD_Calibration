@@ -7,8 +7,12 @@ by eight after eight columns; rows have constant values. testIm3.png does the
 same as 2 but has constant columns with rows running through those values.
 '''
 
-#import the Image module from PIL, it allows us to play with pictures
-from PIL import Image
+#import the Image module from PIL, it allows us to play with pictures.
+#try to import in either of the two ways it can end up installed.
+try:
+    from PIL import Image
+except ImportError:
+    import Image
 
 #the lists will hold the image data before we put it into the Image objects
 imList1 = list()
