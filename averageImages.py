@@ -20,21 +20,32 @@ def averageImages(imageList, upLCorner=0, outMode=None, outName='Average',
     average image which is saved to disk. Handles L and F mode images but can
     only save PNG output images.
 
-    Parameters:
-    imageList - List of strings specifying paths to images for averaging.
-    upLCorner - List of 2-tuples specifying the coordinates of the upper left
-                corner for each image if not all images are the same shape.
-                Coordinates correspond to the location in the largest given
-                image. Tuples go as (column index, row index) starting in the
-                upper left corner of the image and are zero-based.
-    outMode - String specifying the mode to save the average image as. Can be
-              'L' or 'F'. If not specified, the output mode is set to the
-              same as the first image in imageList.
-    outName - String specifying the output image name. Defaults to "Average"
-              with ".png" currently appended to the end since that is the only
-              format that can be written.
-    overWrite - Boolean specifying if the output image should overwrite a
-                preexisting file with the same name or not.
+    Parameters
+    ----------
+    
+    imageList : str list
+        List specifying paths to images for averaging.
+        
+    upLCorner : tuple list, optional
+        List of 2-tuples specifying the coordinates of the upper left corner
+        corner for each image if not all images are the same shape. Coordinates
+        correspond to the location in the largest given image. Tuples go as
+        (column index, row index) starting in the upper left corner of the
+        image and are zero-based.
+        
+    outMode : str
+        Specifies the mode to save the average image as. Can be 'L' or 'F'.
+        If not specified, the output mode is set to the same as the first
+        image in imageList.
+              
+    outName : str, optional
+        Specifies the output image name. Defaults to "Average" with ".png"
+        currently appended to the end since that is the only format that can be
+        written.
+              
+    overWrite : bool, optional
+        Specifies if the output image should overwrite a preexisting file with
+        the same name or not.
     """
     #check if anything with the output name already exists
     if os.path.isfile(outName + '.png') and not overWrite:
