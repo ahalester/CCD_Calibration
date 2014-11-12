@@ -10,8 +10,10 @@ try:
     from PIL import Image
 except ImportError:
     import Image
+import os
 
-def averageImages(imageList, upLCorner=0, outMode=None):
+def averageImages(imageList, upLCorner=0, outMode=None, outName='Average',
+                  overWrite=False):
     """Averages together a list of images and saves the average to disk.
 
     Computes the average at each pixel of a list of images and constructs an
@@ -28,7 +30,29 @@ def averageImages(imageList, upLCorner=0, outMode=None):
     outMode - String specifying the mode to save the average image as. Can be
               'L' or 'F'. If not specified, the output mode is set to the
               same as the first image in imageList.
+    outName - String specifying the output image name. Defaults to "Average"
+              with ".png" currently appended to the end since that is the only
+              format that can be written.
+    overWrite - Boolean specifying if the output image should overwrite a
+                preexisting file with the same name or not.
     """
+    #check if anything with the output name already exists
+    if os.path.isfile(outName + '.png') and not overWrite:
+        raise ValueError('A file already exists named ' + \
+                         outName + '.png and overWrite=False.')
+
+    #check more than 1 image is input
+    if len(imageList) == 1:
+        raise ValueError('Only a single image was input.')
+
+    #check input images exist and are acceptable mode
+    for imName in imageList:
+        if not os.path.isfile(imName):
+            raise ValueError("'" + imName + "' does not exist.")
+        firstMode = Image.open(imName).mode
+        if firstMode != 'L' and firstMode != 'F':
+            raise IOError("'" + firstMode + "' mode not supported.")
+
     #check if the shapes of each image are the same
     maxShape = Image.open(imageList[0]).size
     sameShapes = True
@@ -107,7 +131,7 @@ def averageImages(imageList, upLCorner=0, outMode=None):
     #setup the average image and save to disk
     avgObject = Image.new(outMode, list(imObject.size))
     avgObject.putdata(avgVal)
-    avgObject.save('Average.png')
+    avgObject.save(outName + '.png')
 
 
 #This is how we are currently testing this function. Simply running this file
